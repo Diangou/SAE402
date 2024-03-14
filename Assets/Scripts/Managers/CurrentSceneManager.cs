@@ -8,6 +8,7 @@ public class CurrentSceneManager : MonoBehaviour
     [Header("Listen to events")]
     public StringEventChannel onLevelEnded;
     public BoolEventChannel onDebugConsoleOpenEvent;
+    public VectorEventChannel onRestartLastCheckpoint;
 
     private void Start()
     {
@@ -86,6 +87,8 @@ public class CurrentSceneManager : MonoBehaviour
     public void RestartLastCheckpoint()
     {
         Debug.Log("RestartLastCheckpoint");
+        RestartLevel();
+        //onRestartLastCheckpoint.Raise();
         // Refill life to full
         // Position to last checkpoint
         // Remove menu
