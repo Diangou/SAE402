@@ -5,21 +5,23 @@ using UnityEngine;
 
 public class blockHit : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public SpriteRenderer sr;
+    public bool isHidden = false;
 
     private bool isAnimating = false; 
     public int maxHits = -1;
+
+    public PlatformEffector2D platformEffector2D;
+    public GameObject collectiblePrefab;
+  
+
+    private void Awake(){
+        
+        platformEffector2D.enabled= isHidden;
+        if (isHidden){
+            sr.color = Color.clear;
+        }
+    }
 
     private void OnCollisionEnter2D (Collision2D collision)
     {
@@ -35,8 +37,23 @@ public class blockHit : MonoBehaviour
 
     IEnumerator Hit(){
         isAnimating = true;
+        platformEffector2D.enabled= false;
+        sr.color = Color.white;
+        maxHits--;
         Vector3 endPosition = transform.position + Vector3.up * 0.5f;
         yield return transform.MoveBackAndForth(endPosition);
+
+        if(collectiblePrefab != null){
+            GameObject collectible = Instantiate(collectiblePrefab, transform.position, Quaternion.identity);
+
+            Collectible collec = collectible.GetComponent<Collectible>();
+            collec.canBeDestroyedOnContact = false;
+            Vector3 collectibleEndPosition = collectible.transform.localPosition + Vector3.up *1.5f;
+            
+            yield return collectible.transform.MoveBackAndForth(collectibleEndPosition);
+            collec.Picked();
+        }
+
         isAnimating = false; 
     }
 }
