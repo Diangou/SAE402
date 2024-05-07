@@ -440,6 +440,7 @@ MonoBehaviour:
   musicEffectMixer: {fileID: 7063405799902371548, guid: 72831f5306099754a95be8c884eb0562, type: 2}
   playlist:
   - {fileID: 8300000, guid: f2ef06566d40042468223be90adaf258, type: 3}
+  - {fileID: 8300000, guid: 4f0c677056b6f41edb92d60d62feb3f6, type: 3}
   sfxAudioChannel: {fileID: 11400000, guid: cdb31aea211f71549a57205694811885, type: 2}
 --- !u!4 &9194846822252313343
 Transform:
