@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6270161979568641284}
   - component: {fileID: -6382584301894696089}
   - component: {fileID: -1704706911527225914}
+  - component: {fileID: -3612317159200155581}
   m_Layer: 0
   m_Name: RaddishEnemy
   m_TagString: Untagged
@@ -201,3 +202,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8727398, y: 1.0941739}
   m_EdgeRadius: 0
+--- !u!114 &-3612317159200155581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474634828230418317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3cc69e856bfd8341ad7816d3b5d95c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 6270161979568641284}
