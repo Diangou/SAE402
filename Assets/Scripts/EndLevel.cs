@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndLevel : MonoBehaviour
 {
@@ -10,21 +11,16 @@ public class EndLevel : MonoBehaviour
     public StringEventChannel onLevelEnded;
     public PlaySoundAtEventChannel sfxAudioChannel;
 
-    private bool hasBeenTriggered = false;
+    public string NomDeScene;
+
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player") && !hasBeenTriggered)
-        {
-            hasBeenTriggered = true;
-            if (nextLevelName != null)
-            {
-                particles.Play();
-                sfxAudioChannel.Raise(audioClip, transform.position);
-                onLevelEnded.Raise(nextLevelName);
-            } else {
-                Debug.LogError("Level missing");
-            }
-        }
+        particles.Play();
+        sfxAudioChannel.Raise(audioClip, transform.position);
+        SceneManager.LoadScene("Level2");
     }
+
+
 }
