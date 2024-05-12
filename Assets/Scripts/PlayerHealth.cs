@@ -8,10 +8,6 @@ public class PlayerHealth : MonoBehaviour
 
     public PlayerInvulnerable playerInvulnerable;
 
-    public int maxHealth = 100;
-    public int currentHealth;
-    
-
     [Tooltip("Please uncheck it on production")]
     public bool needResetHP = true;
 
@@ -24,11 +20,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Broadcast event channels")]
     public VoidEventChannel onPlayerDeath;
     
-    void Start()
-    {
-        currentHealth = maxHealth;
-        HealthBar.SetMaxHealth(maxHealth);
-    }
+
 
     private void Awake()
     {
@@ -43,45 +35,29 @@ public class PlayerHealth : MonoBehaviour
         onDebugDeathEvent.OnEventRaised += Die;
     }
 
-   public void TakeDamage(float damage)
-{
-    // Vérifie si le joueur est invincible et si les dégâts sont infinis, dans ce cas, ne pas appliquer de dégâts
-    if (playerInvulnerable.isInvulnerable && damage == float.MaxValue)
+    public void TakeDamage(float damage)
     {
-        return;
-    }
-
-    // Calcul des dégâts
-    float totalDamage = damage;
-
-    // Si les dégâts sont en nombres entiers, convertissez-les en int et soustrayez-les de la santé actuelle
-    if (Mathf.Approximately(damage, Mathf.Round(damage)))
-    {
-        int intDamage = Mathf.RoundToInt(damage);
-        currentHealth -= intDamage;
-    }
-    else // Sinon, utilisez les dégâts float normaux
-    {
+        // Réduire la santé du joueur
         playerData.currentHealth -= damage;
-        totalDamage = playerData.currentHealth <= 0 ? damage + playerData.currentHealth : damage;
-        currentHealth -= Mathf.RoundToInt(totalDamage);
+
+        // Mettre à jour la barre de santé
+        HealthBar.Fill(playerData.currentHealth / playerData.maxHealth);
+
+        // Vérifier si le joueur est mort
+           {
+        if (playerInvulnerable.isInvulnerable && damage < float.MaxValue) return;
+
+        playerData.currentHealth -= damage;
+        if (playerData.currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            StartCoroutine(playerInvulnerable.Invulnerable());
+        }
     }
-
-    // Mettre à jour la barre de vie
-    HealthBar.SetHealth(currentHealth);
-
-    // Vérifie si la santé actuelle est inférieure ou égale à zéro, si oui, appelle Die()
-    if (currentHealth <= 0)
-    {
-        Die();
     }
-    else // Sinon, commence la coroutine d'invulnérabilité si nécessaire
-    {
-        StartCoroutine(playerInvulnerable.Invulnerable());
-    }
-}
-
-
 
     private void Die()
     {
